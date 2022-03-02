@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:genysis/services/auth.dart';
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
+
   final Function? toggleView;
-  SignIn({this.toggleView});
+  Register({this.toggleView});
 
   @override
-  _SignInState createState() => _SignInState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   //text field state values
   String email = "";
@@ -19,13 +20,13 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        title: Text('Sign in to Genysis'),
+        title: Text('Register to Genysis'),
         actions: [
           TextButton.icon(onPressed: () {
             widget.toggleView!();
           }, 
           icon: Icon(Icons.person,color: Colors.white,), 
-          label: Text("Register", style: TextStyle(color: Colors.white),)
+          label: Text("Sign In", style: TextStyle(color: Colors.white),)
           )
         ],
       ),
@@ -64,7 +65,7 @@ class _SignInState extends State<SignIn> {
                     print(password);
                   },
                   child: Text(
-                    "Sign In",
+                    "Register",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
