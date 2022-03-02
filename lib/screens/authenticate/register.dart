@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:genysis/services/auth.dart';
 
 class Register extends StatefulWidget {
-
   final Function? toggleView;
   Register({this.toggleView});
 
@@ -12,9 +11,11 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
   //text field state values
   String email = "";
   String password = "";
+  String error = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,23 +23,31 @@ class _RegisterState extends State<Register> {
         elevation: 0.0,
         title: Text('Register to Genysis'),
         actions: [
-          TextButton.icon(onPressed: () {
-            widget.toggleView!();
-          }, 
-          icon: Icon(Icons.person,color: Colors.white,), 
-          label: Text("Sign In", style: TextStyle(color: Colors.white),)
-          )
+          TextButton.icon(
+              onPressed: () {
+                widget.toggleView!();
+              },
+              icon: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              label: Text(
+                "Sign In",
+                style: TextStyle(color: Colors.white),
+              ))
         ],
       ),
       body: Container(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
           child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 SizedBox(
                   height: 20.0,
                 ),
                 TextFormField(
+                  validator: (val) => val!.isEmpty ? 'Enter an email' : null,
                   onChanged: (val) {
                     setState(() {
                       email = val;
@@ -49,6 +58,9 @@ class _RegisterState extends State<Register> {
                   height: 20.0,
                 ),
                 TextFormField(
+                  validator: (val) => val!.length < 6
+                      ? 'Enter a password longer than 6 characters'
+                      : null,
                   obscureText: true,
                   onChanged: (val) {
                     setState(() {
@@ -61,13 +73,27 @@ class _RegisterState extends State<Register> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    print(email);
-                    print(password);
+                    if (_formKey.currentState!.validate()) {
+                      dynamic result = await _auth.registerWithEmailAndPassword(
+                          email, password);
+                      if (result == null) {
+                        setState(() {
+                          error = "Please supply a valid email and password";
+                        });
+                      }
+                    }
                   },
                   child: Text(
                     "Register",
                     style: TextStyle(color: Colors.white),
                   ),
+                ),
+                SizedBox(
+                  height: 12.0,
+                ),
+                Text(
+                  error,
+                  style: TextStyle(color: Colors.red, fontSize: 14.0),
                 ),
               ],
             ),
