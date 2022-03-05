@@ -40,66 +40,70 @@ class _RegisterState extends State<Register> {
         ],
       ),
       body: Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 20.0,
-                ),
-                TextFormField(
-                  validator: (val) => val!.isEmpty ? 'Enter an email' : null,
-                  onChanged: (val) {
-                    setState(() {
-                      email = val;
-                    });
-                  },
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                TextFormField(
-                  validator: (val) => val!.length < 6
-                      ? 'Enter a password longer than 6 characters'
-                      : null,
-                  obscureText: true,
-                  onChanged: (val) {
-                    setState(() {
-                      password = val;
-                    });
-                  },
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      dynamic result = await _auth.registerWithEmailAndPassword(
-                          email, password);
-                      if (result == null) {
-                        setState(() {
-                          error = "Please supply a valid email and password";
-                        });
-                      }
+        padding: EdgeInsets.symmetric(
+            vertical: height * 0.02, horizontal: width * 0.1),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              SizedBox(
+                height: height * 0.02,
+              ),
+              TextFormField(
+                decoration: InputDecoration(hintText: "EMAIL"),
+                validator: (val) => val!.isEmpty ? 'Enter an email' : null,
+                onChanged: (val) {
+                  setState(() {
+                    email = val;
+                  });
+                },
+              ),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              TextFormField(
+                decoration: InputDecoration(hintText: "PASSWORD"),
+                validator: (val) => val!.length < 6
+                    ? 'Enter a password longer than 6 characters'
+                    : null,
+                obscureText: true,
+                onChanged: (val) {
+                  setState(() {
+                    password = val;
+                  });
+                },
+              ),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    dynamic result = await _auth.registerWithEmailAndPassword(
+                        email, password);
+                    if (result == null) {
+                      setState(() {
+                        error = "Please supply a valid email and password";
+                      });
                     }
-                  },
-                  child: Text(
-                    "Register",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  }
+                },
+                child: Text(
+                  "Register",
+                  style: TextStyle(color: Colors.white),
                 ),
-                SizedBox(
-                  height: 12.0,
-                ),
-                Text(
-                  error,
-                  style: TextStyle(color: Colors.red, fontSize: 14.0),
-                ),
-              ],
-            ),
-          ),),
+              ),
+              SizedBox(
+                height: height * 0.012,
+              ),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

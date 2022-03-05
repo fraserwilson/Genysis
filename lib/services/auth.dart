@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:genysis/models/commonModels/user.dart';
 
 class AuthService{
@@ -12,18 +13,6 @@ class AuthService{
   }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  //sign in anon
-  Future signInAnon() async{
-    try{
-     UserCredential result =  await _auth.signInAnonymously();
-     User? user = result.user;
-     return _userFromFirebase(user);
-    }catch(e){
-      print(e.toString());
-      return null;
-    }
-  }
 
   //sign in with email and password
   Future signInEmailAndPassword(String email, String password) async{
@@ -57,6 +46,16 @@ class AuthService{
     {
       print(e.toString());
       print("could not sign out");
+      return null;
+    }
+  }
+
+  Future forgotPassword(String email) async{
+    try{
+       return await _auth.sendPasswordResetEmail(email: email);
+    }catch(e){
+      print(e.toString());
+      print("Could not reset password");
       return null;
     }
   }

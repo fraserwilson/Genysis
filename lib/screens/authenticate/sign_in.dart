@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:genysis/screens/authenticate/forgot_password.dart';
 import 'package:genysis/services/auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -34,15 +35,16 @@ class _SignInState extends State<SignIn> {
         ],
       ),
       body: Container(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+          padding: EdgeInsets.symmetric(vertical: height*0.02, horizontal: width*0.1),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
                 SizedBox(
-                  height: 20.0,
+                  height: height*0.02,
                 ),
                 TextFormField(
+                  decoration: InputDecoration(hintText: "EMAIL"),
                   validator: (val) => val!.isEmpty ? 'Enter an email' : null,
                   onChanged: (val) {
                     setState(() {
@@ -51,9 +53,10 @@ class _SignInState extends State<SignIn> {
                   },
                 ),
                 SizedBox(
-                  height: 20.0,
+                  height: height*0.02,
                 ),
                 TextFormField(
+                  decoration: InputDecoration(hintText: "PASSWORD"),
                   validator: (val) => val!.length < 6
                       ? 'Enter a password longer than 6 characters'
                       : null,
@@ -65,7 +68,7 @@ class _SignInState extends State<SignIn> {
                   },
                 ),
                 SizedBox(
-                  height: 20.0,
+                  height: height*0.02,
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -84,8 +87,22 @@ class _SignInState extends State<SignIn> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              GestureDetector(
+                child: Text(
+                  "Forgot Password?",
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Colors.blue,
+                    fontSize: 20.0
+                  ),
+                ),
+                onTap: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ForgotPasswordPage(),),),
+              ),
                 SizedBox(
-                  height: 12.0,
+                  height: height*0.012,
                 ),
                 Text(
                   error,
