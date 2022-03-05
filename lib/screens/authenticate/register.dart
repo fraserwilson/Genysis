@@ -18,6 +18,8 @@ class _RegisterState extends State<Register> {
   String error = "";
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
