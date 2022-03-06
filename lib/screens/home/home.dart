@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:genysis/screens/chatApplication/chat_app.dart';
 import 'package:genysis/services/auth.dart';
 
 class Home extends StatelessWidget {
@@ -21,9 +22,7 @@ class Home extends StatelessWidget {
           )
         ],
       ),
-      body: Container(
-        child: Center(child: Text("Chat app"),),
-      ),
+      body: ChatAppPage(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey.shade600,
