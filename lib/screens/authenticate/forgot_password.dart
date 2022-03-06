@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:genysis/screens/authenticate/sign_in.dart';
 import 'package:genysis/services/auth.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -14,11 +15,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final AuthService _auth = AuthService();
 
   @override
-  void dispose() {
-    emailController.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -26,6 +22,23 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       appBar: AppBar(
         elevation: 0.0,
         title: Text("Reset Password"),
+        actions: [
+          TextButton.icon(
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignIn()),
+                    (route) => false);
+              },
+              icon: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              label: Text(
+                "Sign In",
+                style: TextStyle(color: Colors.white),
+              ))
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -58,6 +71,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ElevatedButton.icon(
                 onPressed: () {
                   _auth.forgotPassword(emailController.text.trim());
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: Text('Password Reset Email sent'),
+                            content: Text('Please check your email'),
+                            actions: [
+                              Center(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Close"),
+                                ),
+                              )
+                            ],
+                          ));
                 },
                 style: ElevatedButton.styleFrom(
                     minimumSize: Size.fromHeight(height * 0.1)),
