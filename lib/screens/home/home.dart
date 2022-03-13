@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:genysis/screens/chatApplication/chat_app.dart';
 import 'package:genysis/services/auth.dart';
 
 class Home extends StatelessWidget {
@@ -22,7 +21,6 @@ class Home extends StatelessWidget {
           )
         ],
       ),
-      body: ChatAppPage(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey.shade600,
@@ -35,12 +33,12 @@ class Home extends StatelessWidget {
             label: "Chats",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group_work),
-            label: "Channels",
+            icon: Icon(Icons.group),
+            label: "Team Management",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
-            label: "Profile",
+            icon: Icon(Icons.person),
+            label: "Player Management",
           ),
         ],
       ),
