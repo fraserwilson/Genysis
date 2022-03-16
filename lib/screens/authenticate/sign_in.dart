@@ -26,22 +26,29 @@ class _SignInState extends State<SignIn> {
         elevation: 0.0,
         title: Text('Sign in to Genysis'),
         actions: [
-          TextButton.icon(onPressed: () {
-            widget.toggleView!();
-          }, 
-          icon: Icon(Icons.person,color: Colors.white,), 
-          label: Text("Register", style: TextStyle(color: Colors.white),)
-          )
+          TextButton.icon(
+              onPressed: () {
+                widget.toggleView!();
+              },
+              icon: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              label: Text(
+                "Register",
+                style: TextStyle(color: Colors.white),
+              ))
         ],
       ),
       body: Container(
-          padding: EdgeInsets.symmetric(vertical: height*0.02, horizontal: width*0.1),
+          padding: EdgeInsets.symmetric(
+              vertical: height * 0.02, horizontal: width * 0.1),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
                 SizedBox(
-                  height: height*0.02,
+                  height: height * 0.02,
                 ),
                 TextFormField(
                   decoration: InputDecoration(hintText: "EMAIL"),
@@ -53,7 +60,7 @@ class _SignInState extends State<SignIn> {
                   },
                 ),
                 SizedBox(
-                  height: height*0.02,
+                  height: height * 0.02,
                 ),
                 TextFormField(
                   decoration: InputDecoration(hintText: "PASSWORD"),
@@ -68,13 +75,13 @@ class _SignInState extends State<SignIn> {
                   },
                 ),
                 SizedBox(
-                  height: height*0.02,
+                  height: height * 0.02,
                 ),
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      dynamic result = await _auth.signInEmailAndPassword(
-                          email, password);
+                      dynamic result =
+                          await _auth.signInEmailAndPassword(email, password);
                       if (result == null) {
                         setState(() {
                           error = "Could not sign in with those credentials";
@@ -87,22 +94,25 @@ class _SignInState extends State<SignIn> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              GestureDetector(
-                child: Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Colors.blue,
-                    fontSize: 20.0
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                GestureDetector(
+                  child: Text(
+                    "Forgot Password?",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                        fontSize: 20.0),
+                  ),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ForgotPasswordPage(),
+                    ),
                   ),
                 ),
-                onTap: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ForgotPasswordPage(),),),
-              ),
                 SizedBox(
-                  height: height*0.012,
+                  height: height * 0.012,
                 ),
                 Text(
                   error,
