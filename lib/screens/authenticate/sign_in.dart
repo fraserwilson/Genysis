@@ -140,7 +140,26 @@ class _SignInState extends State<SignIn> {
                       }
                     },
                   ),
-                )
+                ),
+                SizedBox(
+                  height: height * 0.012,
+                ),
+                Material(
+                  elevation: 2.0,
+                  child: ListTile(
+                    leading: Image.asset("assets/images/facebook.jpg"),
+                    title: Text("Sign In with Facebook"),
+                    onTap: () async{
+                      dynamic result =
+                          await _auth.facebookSignIn();
+                      if (result == null) {
+                        setState(() {
+                          error = "Could not sign in with those credentials";
+                        });
+                      }
+                    },
+                  ),
+                ),
               ],
             ),
           )),
