@@ -16,6 +16,7 @@ class _RegisterState extends State<Register> {
   String email = "";
   String password = "";
   String error = "";
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -72,6 +73,9 @@ class _RegisterState extends State<Register> {
                     password = val;
                   });
                 },
+              ),
+              SizedBox(
+                height: height * 0.02,
               ),
               SizedBox(
                 height: height * 0.02,
