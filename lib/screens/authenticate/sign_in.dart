@@ -118,6 +118,29 @@ class _SignInState extends State<SignIn> {
                   error,
                   style: TextStyle(color: Colors.red, fontSize: 14.0),
                 ),
+                SizedBox(
+                  height: height * 0.012,
+                ),
+                Text("OR",style: TextStyle(fontSize: 30),),
+                SizedBox(
+                  height: height * 0.012,
+                ),
+                Material(
+                  elevation: 2.0,
+                  child: ListTile(
+                    leading: Image.asset("assets/images/google.jpg"),
+                    title: Text("Sign In with Google"),
+                    onTap: () async{
+                      dynamic result =
+                          await _auth.googleSignIn();
+                      if (result == null) {
+                        setState(() {
+                          error = "Could not sign in with those credentials";
+                        });
+                      }
+                    },
+                  ),
+                )
               ],
             ),
           )),

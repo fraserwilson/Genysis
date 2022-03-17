@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:genysis/models/commonModels/user.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService{
 
@@ -56,6 +57,21 @@ class AuthService{
     }catch(e){
       print(e.toString());
       print("Could not reset password");
+      return null;
+    }
+  }
+
+  Future googleSignIn() async{
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;  
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      await _auth.signInWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
       return null;
     }
   }
