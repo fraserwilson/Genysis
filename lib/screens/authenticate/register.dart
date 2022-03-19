@@ -77,9 +77,6 @@ class _RegisterState extends State<Register> {
               SizedBox(
                 height: height * 0.02,
               ),
-              SizedBox(
-                height: height * 0.02,
-              ),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {

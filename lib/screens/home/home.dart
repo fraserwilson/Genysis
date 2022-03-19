@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:genysis/screens/playerManagement/player_management_landing.dart';
+import 'package:genysis/screens/teamManagement/team_management_landing.dart';
 import 'package:genysis/services/auth.dart';
+import '../chat_app/chat_landing.dart';
+
 
 
 class Home extends StatefulWidget {
@@ -12,15 +16,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   final screens = [
-    Center(child: Text("Chats", style: TextStyle(fontSize: 60),),),
-    Center(child: Text("Team", style: TextStyle(fontSize: 60),),),
-    Center(child: Text("Player", style: TextStyle(fontSize: 60),),)
+    Center(child: ChatLandingPage()),
+    Center(child: TeamManagement()),
+    Center(child: PlayerManagement())
   ];
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text("GENYSIS"),
