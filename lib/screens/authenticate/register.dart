@@ -1,5 +1,10 @@
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:genysis/services/auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Register extends StatefulWidget {
   final Function? toggleView;
@@ -12,8 +17,10 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-  //text field state values
+  File? _photo;
+  final ImagePicker _picker = ImagePicker();
   String email = "";
+  String name = "";
   String password = "";
   String error = "";
 
@@ -51,6 +58,18 @@ class _RegisterState extends State<Register> {
                 height: height * 0.02,
               ),
               TextFormField(
+                decoration: InputDecoration(hintText: "USERNAME"),
+                validator: (val) => val!.isEmpty ? 'Enter a username' : null,
+                onChanged: (val) {
+                  setState(() {
+                    name = val;
+                  });
+                },
+              ),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              TextFormField(
                 decoration: InputDecoration(hintText: "EMAIL"),
                 validator: (val) => val!.isEmpty ? 'Enter an email' : null,
                 onChanged: (val) {
@@ -77,6 +96,40 @@ class _RegisterState extends State<Register> {
               SizedBox(
                 height: height * 0.02,
               ),
+              Center(
+                child: GestureDetector(
+                  onTap: (() {
+                    _showPicker(context);
+                  }),
+                  child: CircleAvatar(
+                    radius: 55,
+                    backgroundColor: Colors.grey[200],
+                    child: _photo != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.file(
+                              _photo!,
+                              width: width * 0.2,
+                              height: height * 0.13,
+                            ))
+                        : Container(
+                            width: width * 0.2,
+                            height: height * 0.1,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.grey[200],
+                            ),
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Colors.grey[800],
+                            ),
+                          ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: height * 0.02,
+              ),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
@@ -86,6 +139,8 @@ class _RegisterState extends State<Register> {
                       setState(() {
                         error = "Please supply a valid email and password";
                       });
+                    } else {
+                      writeToFirestore(result, name);
                     }
                   }
                 },
@@ -106,5 +161,78 @@ class _RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  //methods for image
+  Future imgFromGallery() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path);
+      } else {
+        print("No Image Selected");
+      }
+    });
+  }
+
+  Future imgFromCamera() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path);
+      } else {
+        print("No Image Selected");
+      }
+    });
+  }
+
+  Future writeToFirestore(dynamic result, String name) async {
+    if (_photo == null) return;
+    final filename = basename(_photo!.path);
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
+
+    try {
+      users.add({
+        'uid': result.uid,
+        'name': name,
+        'email': result.email,
+        'imageName': filename
+      }).then((value) => print("User Added"));
+    } catch (e) {
+      print('upload failed');
+    }
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: Wrap(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.photo_library),
+                    title: Text('Gallery'),
+                    onTap: () {
+                      imgFromGallery();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.photo_camera),
+                    title: Text("Camera"),
+                    onTap: () {
+                      imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
