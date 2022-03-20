@@ -47,116 +47,118 @@ class _RegisterState extends State<Register> {
               ))
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(
-            vertical: height * 0.02, horizontal: width * 0.1),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              SizedBox(
-                height: height * 0.02,
-              ),
-              TextFormField(
-                decoration: InputDecoration(hintText: "USERNAME"),
-                validator: (val) => val!.isEmpty ? 'Enter a username' : null,
-                onChanged: (val) {
-                  setState(() {
-                    name = val;
-                  });
-                },
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              TextFormField(
-                decoration: InputDecoration(hintText: "EMAIL"),
-                validator: (val) => val!.isEmpty ? 'Enter an email' : null,
-                onChanged: (val) {
-                  setState(() {
-                    email = val;
-                  });
-                },
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              TextFormField(
-                decoration: InputDecoration(hintText: "PASSWORD"),
-                validator: (val) => val!.length < 6
-                    ? 'Enter a password longer than 6 characters'
-                    : null,
-                obscureText: true,
-                onChanged: (val) {
-                  setState(() {
-                    password = val;
-                  });
-                },
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              Center(
-                child: GestureDetector(
-                  onTap: (() {
-                    _showPicker(context);
-                  }),
-                  child: CircleAvatar(
-                    radius: 55,
-                    backgroundColor: Colors.grey[200],
-                    child: _photo != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Image.file(
-                              _photo!,
-                              width: width * 0.2,
-                              height: height * 0.13,
-                            ))
-                        : Container(
-                            width: width * 0.2,
-                            height: height * 0.1,
-                            decoration: BoxDecoration(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+              vertical: height * 0.02, horizontal: width * 0.1),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(hintText: "USERNAME"),
+                  validator: (val) => val!.isEmpty ? 'Enter a username' : null,
+                  onChanged: (val) {
+                    setState(() {
+                      name = val;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(hintText: "EMAIL"),
+                  validator: (val) => val!.isEmpty ? 'Enter an email' : null,
+                  onChanged: (val) {
+                    setState(() {
+                      email = val;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(hintText: "PASSWORD"),
+                  validator: (val) => val!.length < 6
+                      ? 'Enter a password longer than 6 characters'
+                      : null,
+                  obscureText: true,
+                  onChanged: (val) {
+                    setState(() {
+                      password = val;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                Center(
+                  child: GestureDetector(
+                    onTap: (() {
+                      _showPicker(context);
+                    }),
+                    child: CircleAvatar(
+                      radius: 55,
+                      backgroundColor: Colors.grey[200],
+                      child: _photo != null
+                          ? ClipRRect(
                               borderRadius: BorderRadius.circular(50),
-                              color: Colors.grey[200],
+                              child: Image.file(
+                                _photo!,
+                                width: width * 0.2,
+                                height: height * 0.13,
+                              ))
+                          : Container(
+                              width: width * 0.2,
+                              height: height * 0.1,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.grey[200],
+                              ),
+                              child: Icon(
+                                Icons.camera_alt,
+                                color: Colors.grey[800],
+                              ),
                             ),
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Colors.grey[800],
-                            ),
-                          ),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    dynamic result = await _auth.registerWithEmailAndPassword(
-                        email, password);
-                    if (result == null) {
-                      setState(() {
-                        error = "Please supply a valid email and password";
-                      });
-                    } else {
-                      writeToFirestore(result, name);
-                    }
-                  }
-                },
-                child: Text(
-                  "Register",
-                  style: TextStyle(color: Colors.white),
+                SizedBox(
+                  height: height * 0.02,
                 ),
-              ),
-              SizedBox(
-                height: height * 0.012,
-              ),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              ),
-            ],
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      dynamic result = await _auth.registerWithEmailAndPassword(
+                          email, password);
+                      if (result == null) {
+                        setState(() {
+                          error = "Please supply a valid email and password";
+                        });
+                      } else {
+                        writeToFirestore(result, name);
+                      }
+                    }
+                  },
+                  child: Text(
+                    "Register",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  height: height * 0.012,
+                ),
+                Text(
+                  error,
+                  style: TextStyle(color: Colors.red, fontSize: 14.0),
+                ),
+              ],
+            ),
           ),
         ),
       ),
