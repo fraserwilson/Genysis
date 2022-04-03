@@ -110,34 +110,10 @@ class _ChatLandingPageState extends State<ChatLandingPage> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: width * 0.016,
-                  right: width * 0.016,
-                  top: height * 0.016),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search...",
-                  hintStyle: TextStyle(color: Colors.grey.shade600),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.grey.shade800,
-                    size: 20,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey.shade100,
-                  contentPadding: EdgeInsets.all(height * 0.008),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(width * 0.02),
-                      borderSide: BorderSide(color: Colors.grey.shade100)),
-                ),
-              ),
-            ),
             ListView.builder(
               itemCount: chatUsers.length,
               shrinkWrap: true,
               padding: EdgeInsets.only(top: 16),
-              physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return ConversationsList(
                   name: chatUsers[index].name,
