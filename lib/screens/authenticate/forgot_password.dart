@@ -40,63 +40,67 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ))
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-            vertical: height * 0.02, horizontal: width * 0.1),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Recieve an email to\nreset your password",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24),
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              TextFormField(
-                controller: emailController,
-                cursorColor: Colors.blue,
-                textInputAction: TextInputAction.done,
-                decoration: InputDecoration(labelText: "Email"),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (email) =>
-                    email == null ? "Enter a valid email" : null,
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  _auth.forgotPassword(emailController.text.trim());
-                  showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: Text('Password Reset Email sent'),
-                            content: Text('Please check your email'),
-                            actions: [
-                              Center(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Close"),
-                                ),
-                              )
-                            ],
-                          ));
-                },
-                style: ElevatedButton.styleFrom(
-                    minimumSize: Size.fromHeight(height * 0.1)),
-                icon: Icon(Icons.email_outlined),
-                label: Text(
-                  "Reset password",
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: height * 0.02, horizontal: width * 0.1),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Recieve an email to\nreset your password",
+                  textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 24),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                TextFormField(
+                  controller: emailController,
+                  cursorColor: Colors.blue,
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(labelText: "Email"),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (email) =>
+                      email == "" ? "Enter a valid email" : null,
+                ),
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _auth.forgotPassword(emailController.text.trim());
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: Text('Password Reset Email sent'),
+                                content: Text('Please check your email'),
+                                actions: [
+                                  Center(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Close"),
+                                    ),
+                                  )
+                                ],
+                              ));
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size.fromHeight(height * 0.1)),
+                  icon: Icon(Icons.email_outlined),
+                  label: Text(
+                    "Reset password",
+                    style: TextStyle(fontSize: 24),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

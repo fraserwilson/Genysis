@@ -40,110 +40,112 @@ class _SignInState extends State<SignIn> {
               ))
         ],
       ),
-      body: Container(
-          padding: EdgeInsets.symmetric(
-              vertical: height * 0.02, horizontal: width * 0.1),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(hintText: "EMAIL"),
-                  validator: (val) => val!.isEmpty ? 'Enter an email' : null,
-                  onChanged: (val) {
-                    setState(() {
-                      email = val;
-                    });
-                  },
-                ),
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(hintText: "PASSWORD"),
-                  validator: (val) => val!.length < 6
-                      ? 'Enter a password longer than 6 characters'
-                      : null,
-                  obscureText: true,
-                  onChanged: (val) {
-                    setState(() {
-                      password = val;
-                    });
-                  },
-                ),
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      dynamic result =
-                          await _auth.signInEmailAndPassword(email, password);
-                      if (result == null) {
-                        setState(() {
-                          error = "Could not sign in with those credentials";
-                        });
-                      }
-                    }
-                  },
-                  child: Text(
-                    "Sign In",
-                    style: TextStyle(color: Colors.white),
+      body: SingleChildScrollView(
+        child: Container(
+            padding: EdgeInsets.symmetric(
+                vertical: height * 0.02, horizontal: width * 0.1),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: height * 0.02,
                   ),
-                ),
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                GestureDetector(
-                  child: Text(
-                    "Forgot Password?",
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colors.blue,
-                        fontSize: 20.0),
-                  ),
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ForgotPasswordPage(),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: height * 0.012,
-                ),
-                Text(
-                  error,
-                  style: TextStyle(color: Colors.red, fontSize: 14.0),
-                ),
-                SizedBox(
-                  height: height * 0.012,
-                ),
-                Text("OR",style: TextStyle(fontSize: 30),),
-                SizedBox(
-                  height: height * 0.012,
-                ),
-                Material(
-                  elevation: 2.0,
-                  child: ListTile(
-                    leading: Image.asset("assets/images/google.jpg"),
-                    title: Text("Sign In with Google"),
-                    onTap: () async{
-                      dynamic result =
-                          await _auth.googleSignIn();
-                      if (result == null) {
-                        setState(() {
-                          error = "Could not sign in with those credentials";
-                        });
-                      }
+                  TextFormField(
+                    decoration: InputDecoration(hintText: "EMAIL"),
+                    validator: (val) => val!.isEmpty ? 'Enter an email' : null,
+                    onChanged: (val) {
+                      setState(() {
+                        email = val;
+                      });
                     },
                   ),
-                )
-              ],
-            ),
-          )),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(hintText: "PASSWORD"),
+                    validator: (val) => val!.length < 6
+                        ? 'Enter a password longer than 6 characters'
+                        : null,
+                    obscureText: true,
+                    onChanged: (val) {
+                      setState(() {
+                        password = val;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        dynamic result =
+                            await _auth.signInEmailAndPassword(email, password);
+                        if (result == null) {
+                          setState(() {
+                            error = "Could not sign in with those credentials";
+                          });
+                        }
+                      }
+                    },
+                    child: Text(
+                      "Sign In",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  GestureDetector(
+                    child: Text(
+                      "Forgot Password?",
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                          fontSize: 20.0),
+                    ),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ForgotPasswordPage(),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.012,
+                  ),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                  ),
+                  SizedBox(
+                    height: height * 0.012,
+                  ),
+                  Text("OR",style: TextStyle(fontSize: 30),),
+                  SizedBox(
+                    height: height * 0.012,
+                  ),
+                  Material(
+                    elevation: 2.0,
+                    child: ListTile(
+                      leading: Image.asset("assets/images/google.jpg"),
+                      title: Text("Sign In with Google"),
+                      onTap: () async{
+                        dynamic result =
+                            await _auth.googleSignIn();
+                        if (result == null) {
+                          setState(() {
+                            error = "Could not sign in with those credentials";
+                          });
+                        }
+                      },
+                    ),
+                  )
+                ],
+              ),
+            )),
+      ),
     );
   }
 }

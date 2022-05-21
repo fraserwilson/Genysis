@@ -21,8 +21,10 @@ class Home extends StatelessWidget {
           )
         ],
       ),
-      body: Container(
-        child: Center(child: Text("Chat app"),),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Center(child: Text("Chat app"),),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
